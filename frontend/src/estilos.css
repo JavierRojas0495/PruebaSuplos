@@ -1,0 +1,375 @@
+:root {
+  --navy: #283355;
+  --blue: #375f9b;
+  --gold: #fbb83a;
+  --gold-dark: #e0a428;
+  --ink: #283355;
+  --text: #404040;
+  --paper: #f7f7f9;
+  --line: #e4e6ee;
+  --ok: #1c7a45;
+  --closed: #4f4e4f;
+  --danger: #9a2f2f;
+  --bs-primary: #283355;
+  --bs-primary-rgb: 40, 51, 85;
+  --bs-body-font-family: Inter, "Segoe UI", sans-serif;
+  --bs-body-color: var(--text);
+  --bs-body-bg: var(--paper);
+  --bs-border-color: var(--line);
+  --bs-link-color: var(--blue);
+  --bs-link-hover-color: var(--navy);
+  --bs-border-radius: 10px;
+}
+
+body {
+  color: var(--text);
+  background: var(--paper);
+}
+
+.barra {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(40, 51, 85, 0.16);
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.marca img {
+  height: 32px;
+  width: auto;
+}
+
+.contenido {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 1.75rem auto 3rem;
+}
+
+h1,
+h2,
+.marca {
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+.h4,
+.h5 {
+  font-family: Cabin, Inter, sans-serif;
+  color: var(--navy);
+}
+
+h1 {
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.subtitulo {
+  color: var(--text);
+  max-width: 68ch;
+}
+
+.superficie {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(40, 51, 85, 0.06);
+}
+
+.superficie-lista {
+  overflow: hidden;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.form-control,
+.form-select {
+  border-color: #d5d8e4;
+  background: #fff;
+  color: var(--text);
+  border-radius: 10px;
+}
+
+.form-control::placeholder {
+  color: #4e596b;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 2px 0 rgba(55, 95, 155, 0.08), 0 0 0 3px rgba(55, 95, 155, 0.18);
+}
+
+.btn {
+  border-radius: 21px;
+  font-weight: 600;
+}
+
+.numero-oferta {
+  font-weight: 700;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.valor-moneda {
+  font-family: Cabin, Inter, sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+.seccion + .seccion {
+  border-top: 1px solid var(--line);
+}
+
+.contador {
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.btn-listado {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: transparent;
+}
+
+.btn-listado:hover,
+.btn-listado:focus {
+  color: var(--navy);
+  background: #fff;
+  border-color: #fff;
+}
+
+.btn-accion {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--navy);
+}
+
+.btn-accion:hover,
+.btn-accion:focus {
+  background: var(--gold-dark);
+  border-color: var(--gold-dark);
+  color: var(--navy);
+}
+
+.btn-accion:disabled,
+.btn-accion.disabled {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--navy);
+  opacity: 0.55;
+}
+
+.btn-outline-secondary {
+  color: var(--navy);
+  border-color: #c5cad8;
+  background: #fff;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  color: #fff;
+  background: var(--navy);
+  border-color: var(--navy);
+}
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.estado-programada { background: #e7eef8; color: var(--navy); }
+.estado-en-curso { background: #e5f4ec; color: var(--ok); }
+.estado-cerrada { background: #ececee; color: var(--closed); }
+
+.tabla-ofertas {
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: #f3f6fb;
+}
+
+.tabla-ofertas thead th {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 600;
+  border: 0;
+  padding: 0.9rem 1rem;
+  white-space: nowrap;
+}
+
+.tabla-ofertas td {
+  vertical-align: top;
+  padding: 0.95rem 1rem;
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.tabla-ofertas tbody tr:hover {
+  background: #f3f6fb;
+}
+
+.tabla-ofertas .btn {
+  white-space: nowrap;
+}
+
+.tabla-ofertas td:first-child {
+  font-weight: 700;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.nav-ficha {
+  border-bottom-color: var(--line);
+  gap: 0.25rem;
+}
+
+.nav-ficha .nav-link {
+  color: var(--text);
+  border: 0;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.nav-ficha .nav-link:hover,
+.nav-ficha .nav-link:focus {
+  color: var(--navy);
+  border: 0;
+}
+
+.nav-ficha .nav-link.active {
+  color: var(--navy);
+  background: transparent;
+  border: 0;
+  box-shadow: inset 0 -3px 0 var(--gold);
+}
+
+.vacio {
+  padding: 2.4rem 1.5rem;
+  max-width: 48ch;
+}
+
+.descripcion-corta {
+  max-width: 28rem;
+  color: var(--text);
+}
+
+.resultados {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  max-height: 240px;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(40, 51, 85, 0.1);
+}
+
+.resultados button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 0.55rem 0.75rem;
+  color: var(--text);
+}
+
+.resultados button:hover,
+.resultados button:focus {
+  background: #f3f6fb;
+}
+
+.modal-documento {
+  background: rgba(40, 51, 85, 0.5);
+}
+
+.campo-invalido {
+  border-color: var(--danger);
+}
+
+.ayuda-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+.pagina-enter-active {
+  transition: opacity 0.16s ease-out;
+}
+
+.pagina-enter-from {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pagina-enter-active {
+    transition: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .contenido {
+    width: min(1120px, calc(100% - 1.25rem));
+    margin-top: 1rem;
+  }
+
+  .marca img {
+    height: 26px;
+  }
+
+  .barra-interior {
+    flex-wrap: wrap;
+    row-gap: 0.75rem;
+  }
+
+  .acciones-barra,
+  .acciones-pagina {
+    width: 100%;
+  }
+
+  .acciones-barra .btn,
+  .acciones-pagina .btn,
+  .acciones-formulario .btn {
+    flex: 1 1 auto;
+  }
+
+  .acciones-formulario {
+    flex-direction: column;
+  }
+
+  .acciones-formulario .btn {
+    width: 100%;
+  }
+
+  .nav-ficha {
+    flex-wrap: wrap;
+    row-gap: 0.25rem;
+  }
+
+  .nav-ficha .nav-link {
+    padding-inline: 0.7rem;
+  }
+
+  .modal-documento .superficie {
+    max-height: calc(100dvh - 1.5rem);
+    overflow: auto;
+  }
+}

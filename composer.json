@@ -1,0 +1,20 @@
+{
+  "name": "suplos/ofertas",
+  "description": "Módulo de licitaciones. Prueba técnica FullStack Suplos: PHP MVC sin frameworks y Vue.",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "illuminate/database": "^11.44",
+    "illuminate/events": "^11.44",
+    "phpoffice/phpspreadsheet": "^2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}
