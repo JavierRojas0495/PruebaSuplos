@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Core\Env;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 final class ArchivoService
 {
@@ -73,6 +74,64 @@ final class ArchivoService
         }
 
         return $relativa;
+    }
+
+    /**
+     * Descripcion: Guarda una copia del archivo en la base para que sobreviva al reinicio del servidor.
+     * Fecha: 25/10/26
+     * Autor: Javier Rojas
+     */
+    public static function persistirContenido(int $documentoId, string $rutaRelativa): void
+    {
+        $ruta = self::rutaAbsolutaSegura($rutaRelativa);
+        if ($ruta === null) {
+            return;
+        }
+
+        $bytes = file_get_contents($ruta);
+        if ($bytes === false || $bytes === '') {
+            return;
+        }
+
+        $conexion = Capsule::connection();
+        if ($conexion->getDriverName() === 'pgsql') {
+            $conexion->update(
+                'UPDATE ofertas_documentos SET contenido = decode(?, ?) WHERE id = ?',
+                [bin2hex($bytes), 'hex', $documentoId]
+            );
+            return;
+        }
+
+        $sentencia = $conexion->getPdo()->prepare('UPDATE ofertas_documentos SET contenido = ? WHERE id = ?');
+        $sentencia->bindValue(1, $bytes, \PDO::PARAM_LOB);
+        $sentencia->bindValue(2, $documentoId, \PDO::PARAM_INT);
+        $sentencia->execute();
+    }
+
+    /**
+     * Descripcion: Lee el archivo guardado en la base y lo devuelve en bytes.
+     * Fecha: 25/10/26
+     * Autor: Javier Rojas
+     */
+    public static function contenido(int $documentoId): ?string
+    {
+        $fila = Capsule::connection()->selectOne(
+            'SELECT contenido FROM ofertas_documentos WHERE id = ?',
+            [$documentoId]
+        );
+        $valor = $fila->contenido ?? null;
+        if (is_resource($valor)) {
+            $valor = stream_get_contents($valor);
+        }
+        if (!is_string($valor) || $valor === '') {
+            return null;
+        }
+        if (str_starts_with($valor, '\\x')) {
+            $binario = hex2bin(substr($valor, 2));
+            return $binario === false || $binario === '' ? null : $binario;
+        }
+
+        return $valor;
     }
 
     /**

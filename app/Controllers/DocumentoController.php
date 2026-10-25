@@ -25,12 +25,19 @@ final class DocumentoController
             return;
         }
 
+        $nombre = ArchivoService::nombreVisible((string) $documento->archivo);
+        $bytes = ArchivoService::contenido($id);
+        if ($bytes !== null) {
+            Response::contenido($bytes, $nombre);
+            return;
+        }
+
         $ruta = ArchivoService::rutaAbsolutaSegura((string) $documento->archivo);
         if ($ruta === null) {
             Response::json(['message' => 'El archivo no está disponible.'], 404);
             return;
         }
 
-        Response::archivo($ruta, ArchivoService::nombreVisible((string) $documento->archivo));
+        Response::archivo($ruta, $nombre);
     }
 }

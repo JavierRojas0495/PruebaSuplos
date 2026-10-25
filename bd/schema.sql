@@ -55,6 +55,7 @@ CREATE TABLE ofertas_documentos (
   titulo VARCHAR(100) NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
   archivo VARCHAR(255) NOT NULL,
+  contenido LONGBLOB NULL,
   creado_en DATETIME NOT NULL,
   PRIMARY KEY (id),
   KEY idx_documentos_licitacion (licitacion_id),

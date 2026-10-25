@@ -47,6 +47,31 @@ final class Database
         $capsule->addConnection($conexion);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
+        self::asegurarContenido();
         self::$iniciado = true;
+    }
+
+    /**
+     * Descripcion: Agrega la columna que guarda el archivo en la base si todavía no existe.
+     * Fecha: 25/10/26
+     * Autor: Javier Rojas
+     */
+    private static function asegurarContenido(): void
+    {
+        try {
+            $conexion = Capsule::connection();
+            if ($conexion->getDriverName() === 'pgsql') {
+                $conexion->unprepared('ALTER TABLE ofertas_documentos ADD COLUMN IF NOT EXISTS contenido BYTEA');
+                return;
+            }
+
+            $existe = $conexion->selectOne(
+                "SELECT COUNT(*) AS total FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = 'ofertas_documentos' AND column_name = 'contenido'"
+            );
+            if ((int) ($existe->total ?? 0) === 0) {
+                $conexion->unprepared('ALTER TABLE ofertas_documentos ADD COLUMN contenido LONGBLOB NULL');
+            }
+        } catch (Throwable) {
+        }
     }
 }

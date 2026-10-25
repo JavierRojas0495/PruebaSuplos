@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS ofertas_documentos (
   titulo VARCHAR(100) NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
   archivo VARCHAR(255) NOT NULL,
+  contenido BYTEA,
   creado_en TIMESTAMP NOT NULL
 );
 

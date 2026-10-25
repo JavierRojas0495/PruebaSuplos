@@ -70,7 +70,7 @@ Supabase es PostgreSQL. El entorno local sigue en MySQL; en Render `DB_CONNECTIO
 
 Abra la URL del sitio estático. `https://su-api.onrender.com/api/salud` debe responder `{"ok":true}`.
 
-Los PDF y ZIP se guardan en el disco del servicio. En el plan gratuito ese disco se pierde al reiniciar el servicio; la base en Supabase sí permanece.
+Los PDF y ZIP se guardan en la base de Supabase, así que permanecen cuando el servicio se reinicia.
 
 En este equipo los programas están en Laragon y no en el PATH:
 

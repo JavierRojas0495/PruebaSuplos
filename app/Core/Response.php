@@ -36,6 +36,22 @@ final class Response
     }
 
     /**
+     * Descripcion: Descarga el contenido binario guardado en la base.
+     * Fecha: 25/10/26
+     * Autor: Javier Rojas
+     */
+    public static function contenido(string $bytes, string $nombreDescarga): void
+    {
+        self::cors();
+        http_response_code(200);
+        header('Content-Type: application/octet-stream');
+        header('Content-Length: ' . (string) strlen($bytes));
+        header('Content-Disposition: attachment; filename="' . self::nombreSeguro($nombreDescarga) . '"');
+        header('X-Content-Type-Options: nosniff');
+        echo $bytes;
+    }
+
+    /**
      * Descripcion: Agrega las cabeceras que permiten consumir la API desde el frontend.
      * Fecha: 24/10/26
      * Autor: Javier Rojas

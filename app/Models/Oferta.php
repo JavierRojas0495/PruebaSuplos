@@ -33,6 +33,7 @@ class Oferta extends Model
      */
     public function documentos(): HasMany
     {
-        return $this->hasMany(OfertaDocumento::class, 'licitacion_id');
+        return $this->hasMany(OfertaDocumento::class, 'licitacion_id')
+            ->select(['id', 'licitacion_id', 'titulo', 'descripcion', 'archivo', 'creado_en']);
     }
 }

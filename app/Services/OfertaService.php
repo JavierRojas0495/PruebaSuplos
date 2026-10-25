@@ -79,13 +79,15 @@ final class OfertaService
             $oferta->save();
 
             foreach ($documentos as $documento) {
-                OfertaDocumento::query()->create([
+                $ruta = ArchivoService::guardar((int) $oferta->id, $documento['archivo']);
+                $registro = OfertaDocumento::query()->create([
                     'licitacion_id' => $oferta->id,
                     'titulo' => trim($documento['titulo']),
                     'descripcion' => trim($documento['descripcion']),
-                    'archivo' => ArchivoService::guardar((int) $oferta->id, $documento['archivo']),
+                    'archivo' => $ruta,
                     'creado_en' => $ahora,
                 ]);
+                ArchivoService::persistirContenido((int) $registro->id, $ruta);
             }
 
             return $oferta->refresh()->load(['actividad', 'documentos']);

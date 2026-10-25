@@ -15,6 +15,8 @@ class OfertaDocumento extends Model
 
     protected $guarded = ['id'];
 
+    protected $hidden = ['contenido'];
+
     /**
      * Descripcion: Relaciona el documento con su licitación.
      * Fecha: 24/10/26
