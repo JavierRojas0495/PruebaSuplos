@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Response;
 use App\Models\Oferta;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -51,6 +52,7 @@ final class ExcelOfertas
             $hoja->getColumnDimension($columna)->setAutoSize(true);
         }
 
+        Response::cors();
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="ofertas.xlsx"');
         header('Cache-Control: max-age=0');

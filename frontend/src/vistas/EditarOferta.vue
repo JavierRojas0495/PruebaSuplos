@@ -3,7 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FormularioOferta from '../componentes/FormularioOferta.vue'
 import ModalDocumento from '../componentes/ModalDocumento.vue'
-import { actualizarOferta, mensajeError, obtenerOferta } from '../api'
+import { actualizarOferta, mensajeError, obtenerOferta, urlPublica } from '../api'
 import { ofertaVacia, validarOferta } from '../validaciones/oferta'
 
 const route = useRoute()
@@ -167,7 +167,7 @@ watch(() => route.params.id, (id) => cargar(id), { immediate: true })
           <li v-for="documento in existentes" :key="documento.id" class="py-3 border-bottom">
             <strong>{{ documento.titulo }}</strong>
             <p class="mb-1">{{ documento.descripcion }}</p>
-            <a :href="documento.url">{{ documento.nombre }}</a>
+            <a :href="urlPublica(documento.url)">{{ documento.nombre }}</a>
             <span class="contador d-block">{{ documento.creado_en }}</span>
           </li>
           <li v-for="(documento, indice) in pendientes" :key="`nuevo-${indice}`" class="py-3 border-bottom d-flex justify-content-between gap-3">

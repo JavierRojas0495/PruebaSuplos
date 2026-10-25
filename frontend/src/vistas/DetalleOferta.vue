@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { mensajeError, obtenerOferta } from '../api'
+import { mensajeError, obtenerOferta, urlPublica } from '../api'
 
 const route = useRoute()
 const oferta = ref(null)
@@ -131,7 +131,7 @@ onMounted(() => {
               <li v-for="documento in oferta.documentos" :key="documento.id" class="py-3 border-bottom">
                 <strong>{{ documento.titulo }}</strong>
                 <p class="mb-1">{{ documento.descripcion }}</p>
-                <a :href="documento.url">{{ documento.nombre }}</a>
+                <a :href="urlPublica(documento.url)">{{ documento.nombre }}</a>
                 <span class="contador d-block">{{ documento.creado_en }}</span>
               </li>
             </ul>

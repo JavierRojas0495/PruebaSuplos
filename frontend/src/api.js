@@ -16,6 +16,19 @@ function baseApi() {
   return '/api'
 }
 
+/**
+ * Descripcion: Convierte un enlace relativo del API en una dirección absoluta del servicio publicado.
+ * Fecha: 25/10/26
+ * Autor: Javier Rojas
+ */
+export function urlPublica(url) {
+  if (!url || /^https?:\/\//i.test(url)) {
+    return url
+  }
+  const raiz = baseApi().replace(/\/api$/, '')
+  return `${raiz}${url.startsWith('/') ? url : `/${url}`}`
+}
+
 const http = axios.create({
   baseURL: baseApi(),
   timeout: 60000,
