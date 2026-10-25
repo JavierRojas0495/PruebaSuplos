@@ -34,8 +34,12 @@ if ($total >= 49022) {
     exit(0);
 }
 if ($total > 0) {
-    fwrite(STDERR, "La tabla actividades tiene {$total} filas y no está completa. No se reinserta.\n");
-    exit(1);
+    if ((int) $conexion->table('ofertas')->count() > 0) {
+        fwrite(STDERR, "La tabla actividades tiene {$total} filas y ya hay licitaciones. No se reinserta.\n");
+        exit(1);
+    }
+    $conexion->unprepared('TRUNCATE TABLE actividades RESTART IDENTITY CASCADE');
+    echo "Se descartó una carga incompleta de {$total} filas.\n";
 }
 
 $origen = fopen(dirname(__DIR__) . '/bd/actividades.sql', 'rb');
@@ -53,8 +57,7 @@ while (($linea = fgets($origen)) !== false) {
     if (!str_starts_with($linea, 'INSERT')) {
         continue;
     }
-    $linea = str_replace('INSERT INTO `actividades`', 'INSERT INTO actividades', $linea);
-    $conexion->unprepared($linea);
+    $conexion->unprepared(sentenciaPostgres($linea));
     $insertadas++;
     echo "Bloque {$insertadas} cargado.\n";
 }
@@ -66,6 +69,18 @@ if ($maximo > 0) {
 }
 
 echo 'Maestra lista: ' . $conexion->table('actividades')->count() . " actividades.\n";
+
+/**
+ * Descripcion: Adapta el volcado de MySQL para que PostgreSQL acepte las comillas.
+ * Fecha: 25/10/26
+ * Autor: Javier Rojas
+ */
+function sentenciaPostgres(string $linea): string
+{
+    $linea = str_replace('INSERT INTO `actividades`', 'INSERT INTO actividades', $linea);
+
+    return str_replace(["\\'", '\\"'], ["''", '"'], $linea);
+}
 
 /**
  * Descripcion: Ejecuta un archivo SQL separado por sentencias.
