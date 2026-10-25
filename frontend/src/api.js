@@ -1,11 +1,34 @@
 import axios from 'axios'
 
-const base = import.meta.env.VITE_API_URL || '/api'
+/**
+ * Descripcion: Resuelve la dirección del API: la variable de entorno, el servicio publicado o el proxy local.
+ * Fecha: 25/10/26
+ * Autor: Javier Rojas
+ */
+function baseApi() {
+  const configurada = import.meta.env.VITE_API_URL
+  if (configurada) {
+    return String(configurada).replace(/\/$/, '')
+  }
+  if (import.meta.env.PROD) {
+    return 'https://suplos-api.onrender.com/api'
+  }
+  return '/api'
+}
 
 const http = axios.create({
-  baseURL: String(base).replace(/\/$/, ''),
+  baseURL: baseApi(),
   timeout: 60000,
 })
+
+/**
+ * Descripcion: Comprueba que el API responda y tenga conexión con la base.
+ * Fecha: 25/10/26
+ * Autor: Javier Rojas
+ */
+export function servidorListo() {
+  return http.get('/salud', { timeout: 8000 }).then((respuesta) => respuesta.data?.ok === true)
+}
 
 /**
  * Descripcion: Traduce el error de la petición al mensaje que muestra la pantalla.

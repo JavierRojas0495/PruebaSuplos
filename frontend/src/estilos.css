@@ -26,6 +26,68 @@ body {
   background: var(--paper);
 }
 
+.arranque {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.85rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--navy);
+  text-align: center;
+}
+
+.arranque img {
+  height: 42px;
+  width: auto;
+}
+
+.arranque h1 {
+  margin: 0.35rem 0 0;
+  color: #fff;
+  font-size: 2.15rem;
+}
+
+.arranque p {
+  max-width: 38ch;
+  margin: 0;
+  color: #f8e7bf;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.arranque-linea {
+  width: 8.5rem;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(251, 184, 58, 0.28);
+}
+
+.arranque-linea span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  background: var(--gold);
+  animation: arranque 1.35s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.arranque .btn {
+  margin-top: 0.4rem;
+}
+
+@keyframes arranque {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(280%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arranque-linea span {
+    width: 100%;
+    animation: none;
+  }
+}
+
 .barra {
   background: var(--navy);
   color: #fff;
