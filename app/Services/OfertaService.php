@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Core\Env;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
 use App\Models\Actividad;
@@ -146,12 +147,13 @@ final class OfertaService
     private function filtrar(array $filtros): Builder
     {
         $consulta = Oferta::query();
+        $operador = $consulta->getConnection()->getDriverName() === 'pgsql' ? 'ilike' : 'like';
         foreach (['consecutivo', 'objeto', 'descripcion'] as $campo) {
             $valor = trim((string) ($filtros[$campo] ?? ''));
             if ($valor === '') {
                 continue;
             }
-            $consulta->where($campo, 'like', $this->contiene($valor));
+            $consulta->where($campo, $operador, $this->contiene($valor));
         }
 
         return $consulta;
@@ -276,10 +278,22 @@ final class OfertaService
                     'descripcion' => $documento->descripcion,
                     'nombre' => ArchivoService::nombreVisible((string) $documento->archivo),
                     'creado_en' => (string) $documento->creado_en,
-                    'url' => '/api/documentos/' . $documento->id,
+                    'url' => $this->urlDocumento((int) $documento->id),
                 ])
                 ->all(),
         ]);
+    }
+
+    /**
+     * Descripcion: Arma el enlace de descarga, absoluto cuando APP_URL está definido.
+     * Fecha: 25/10/26
+     * Autor: Javier Rojas
+     */
+    private function urlDocumento(int $id): string
+    {
+        $base = rtrim((string) Env::get('APP_URL', ''), '/');
+
+        return ($base !== '' ? $base : '') . '/api/documentos/' . $id;
     }
 
     /**
@@ -308,7 +322,7 @@ final class OfertaService
             } catch (QueryException $excepcion) {
                 $ultimo = $excepcion;
                 $codigo = (string) $excepcion->getCode();
-                if (!in_array($codigo, ['23000', '1062'], true) || $intento === 2) {
+                if (!in_array($codigo, ['23000', '1062', '23505'], true) || $intento === 2) {
                     throw $excepcion;
                 }
             }

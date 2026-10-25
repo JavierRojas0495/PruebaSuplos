@@ -29,10 +29,11 @@ final class ActividadController
 
         if ($termino !== '') {
             $como = '%' . $this->escapar($termino) . '%';
-            $consulta->where(function ($sub) use ($termino, $como) {
-                $sub->where('producto', 'like', $como)
-                    ->orWhere('clase', 'like', $como)
-                    ->orWhere('familia', 'like', $como);
+            $operador = $consulta->getConnection()->getDriverName() === 'pgsql' ? 'ilike' : 'like';
+            $consulta->where(function ($sub) use ($termino, $como, $operador) {
+                $sub->where('producto', $operador, $como)
+                    ->orWhere('clase', $operador, $como)
+                    ->orWhere('familia', $operador, $como);
                 if (preg_match('/^\d+$/', $termino)) {
                     $sub->orWhere('codigo_producto', (int) $termino);
                 }

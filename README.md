@@ -50,6 +50,28 @@ Si MySQL no usa `root` sin contraseña, cambie `DB_USERNAME` y `DB_PASSWORD` en 
 
 `bd/importar_actividades.php` solo sirve para volver a leer el Excel oficial si la maestra cambia y todavía no hay ofertas.
 
+## Render y Supabase
+
+Supabase es PostgreSQL. El entorno local sigue en MySQL; en Render `DB_CONNECTION` vale `pgsql`.
+
+1. Cree un proyecto en Supabase. En Connect elija el pooler de sesión, puerto `5432`. No use el puerto `6543`: las transacciones del consecutivo no funcionan en ese modo.
+2. En Render, cree un Blueprint con este repositorio. El archivo `render.yaml` define el API (`suplos-api`) y el sitio estático (`suplos-web`).
+3. En el API complete las variables que el blueprint deja vacías:
+
+| Variable | Valor |
+| --- | --- |
+| `DB_HOST` | Host del pooler de Supabase |
+| `DB_USERNAME` | Usuario, suele ser `postgres.referencia` |
+| `DB_PASSWORD` | Contraseña de la base |
+| `APP_URL` | URL pública del API, sin `/api` al final |
+
+4. Cuando el API ya tenga URL, en el sitio estático ponga `VITE_API_URL` con esa URL más `/api`, por ejemplo `https://suplos-api.onrender.com/api`, y vuelva a desplegar el frontend.
+5. El primer despliegue del API ejecuta `php bd/preparar_pgsql.php`: crea las tablas y carga los 49.022 productos.
+
+Abra la URL del sitio estático. `https://su-api.onrender.com/api/salud` debe responder `{"ok":true}`.
+
+Los PDF y ZIP se guardan en el disco del servicio. En el plan gratuito ese disco se pierde al reiniciar el servicio; la base en Supabase sí permanece.
+
 En este equipo los programas están en Laragon y no en el PATH:
 
 ```powershell
