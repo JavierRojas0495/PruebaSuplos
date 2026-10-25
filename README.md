@@ -16,21 +16,23 @@ La actividad es un buscador sobre la maestra UNSPSC (unas 49.000 filas). Un sele
 
 ## Requisitos
 
-- PHP 8.1 o superior, con `pdo_mysql`, `mbstring`, `fileinfo`, `bcmath` y `zip`. En esta máquina está Laragon: `C:\laragon\bin\php\php-8.3.36-Win32-vs16-x64\php.exe`.
+- PHP 8.1 o superior, con `pdo_mysql`, `mbstring`, `fileinfo`, `bcmath` y `zip`.
 - Composer.
-- MySQL 8 o MariaDB. En Laragon el usuario típico es `root` sin contraseña. Hay que tener el servicio iniciado.
+- MySQL 8 o MariaDB, con el servicio iniciado.
 - Node.js 20 o superior.
 
 ## Puesta en marcha
 
-Desde `F:\Desarrollo\Suplos`:
+Desde la raíz del proyecto, con `php`, `composer` y `mysql` en el PATH:
 
 ```powershell
 copy .env.example .env
-C:\laragon\bin\php\php-8.3.36-Win32-vs16-x64\php.exe C:\laragon\bin\composer\composer.phar install
-cmd /c '"C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe" -uroot --default-character-set=utf8mb4 < bd\schema.sql && "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe" -uroot --default-character-set=utf8mb4 < bd\actividades.sql'
-C:\laragon\bin\php\php-8.3.36-Win32-vs16-x64\php.exe -S 127.0.0.1:8000 -t public public\index.php
+composer install
+cmd /c "mysql -uroot --default-character-set=utf8mb4 < bd\schema.sql && mysql -uroot --default-character-set=utf8mb4 < bd\actividades.sql"
+php -S 127.0.0.1:8000 -t public public\index.php
 ```
+
+El servidor de PHP tiene que arrancar en la raíz del proyecto y usar `public\index.php` como enrutador. Sin ese archivo final, las rutas `/api` no responden.
 
 En otra terminal:
 
@@ -40,13 +42,22 @@ npm install
 npm run dev
 ```
 
-Abra `http://127.0.0.1:5173`. Vite reenvía `/api` al PHP de `http://127.0.0.1:8000`.
+Abra `http://127.0.0.1:5173`. Vite reenvía `/api` a `http://127.0.0.1:8000`.
 
-Si `php` y `mysql` ya están en el PATH, puede usar esos comandos sin la ruta de Laragon. Ajuste `DB_USERNAME` y `DB_PASSWORD` en `.env` si su servidor no usa `root` vacío.
+Al terminar, el listado abre vacío y la actividad ya puede buscar entre los 49.022 productos UNSPSC. Esos productos viajan en `bd/actividades.sql`; no hay que descargar el Excel. Esos dos SQL se ejecutan una sola vez: si las tablas ya existen, el segundo intento falla.
 
-Ese comando crea las tablas e inserta los 49.022 productos UNSPSC que viajan en `bd/actividades.sql`. En otro servidor no hay que descargar el Excel: con la base creada, la maestra ya queda cargada.
+Si MySQL no usa `root` sin contraseña, cambie `DB_USERNAME` y `DB_PASSWORD` en `.env` y use el mismo usuario en el comando `mysql`. Compruebe la API en `http://127.0.0.1:8000/api/salud`; debe responder `{"ok":true}`.
 
 `bd/importar_actividades.php` solo sirve para volver a leer el Excel oficial si la maestra cambia y todavía no hay ofertas.
+
+En este equipo los programas están en Laragon y no en el PATH:
+
+```powershell
+copy .env.example .env
+C:\laragon\bin\php\php-8.3.36-Win32-vs16-x64\php.exe C:\laragon\bin\composer\composer.phar install
+cmd /c '"C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe" -uroot --default-character-set=utf8mb4 < bd\schema.sql && "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe" -uroot --default-character-set=utf8mb4 < bd\actividades.sql'
+C:\laragon\bin\php\php-8.3.36-Win32-vs16-x64\php.exe -S 127.0.0.1:8000 -t public public\index.php
+```
 
 Comprobaciones de validación, sin base de datos:
 
