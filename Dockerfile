@@ -19,4 +19,4 @@ RUN mkdir -p storage/ofertas \
 ENV PORT=10000
 EXPOSE 10000
 
-CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t public public/index.php"]
+CMD ["sh", "-c", "php bd/preparar_pgsql.php && php -S 0.0.0.0:${PORT} -t public public/index.php"]

@@ -3,8 +3,8 @@ services:
     name: suplos-api
     runtime: docker
     dockerfilePath: ./Dockerfile
+    plan: free
     healthCheckPath: /api/salud
-    releaseCommand: php bd/preparar_pgsql.php
     envVars:
       - key: APP_DEBUG
         value: "false"

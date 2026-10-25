@@ -66,7 +66,7 @@ Supabase es PostgreSQL. El entorno local sigue en MySQL; en Render `DB_CONNECTIO
 | `APP_URL` | URL pública del API, sin `/api` al final |
 
 4. Cuando el API ya tenga URL, en el sitio estático ponga `VITE_API_URL` con esa URL más `/api`, por ejemplo `https://suplos-api.onrender.com/api`, y vuelva a desplegar el frontend.
-5. El primer despliegue del API ejecuta `php bd/preparar_pgsql.php`: crea las tablas y carga los 49.022 productos.
+5. Al arrancar, el API crea las tablas y carga los 49.022 productos. El primer inicio puede tardar unos minutos.
 
 Abra la URL del sitio estático. `https://su-api.onrender.com/api/salud` debe responder `{"ok":true}`.
 
