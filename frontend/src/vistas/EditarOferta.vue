@@ -1,6 +1,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import Espera from '../componentes/Espera.vue'
 import FormularioOferta from '../componentes/FormularioOferta.vue'
 import ModalDocumento from '../componentes/ModalDocumento.vue'
 import { actualizarOferta, mensajeError, obtenerOferta, urlPublica } from '../api'
@@ -144,7 +145,11 @@ watch(() => route.params.id, (id) => cargar(id), { immediate: true })
   <div>
     <h1 class="mb-1">Editar licitación</h1>
     <p class="subtitulo">Las secciones se cargan con los datos actuales. Para guardar hace falta al menos un documento.</p>
-    <p v-if="cargando">Cargando datos…</p>
+    <Espera
+      v-if="cargando"
+      titulo="Cargando licitación"
+      texto="Los datos guardados aparecen en cuanto el servidor responde."
+    />
     <p v-if="errorCarga" class="alert alert-danger" role="alert">{{ errorCarga }}</p>
     <p v-if="aviso" class="alert alert-danger" role="alert">{{ aviso }}</p>
 

@@ -88,6 +88,48 @@ body {
   }
 }
 
+.espera {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(40, 51, 85, 0.06);
+  padding: 1.6rem 1.5rem 1.4rem;
+}
+
+.espera h2 {
+  margin: 0;
+  font-size: 1.55rem;
+}
+
+.espera p {
+  max-width: 42ch;
+  margin: 0.4rem 0 0.9rem;
+}
+
+.espera .arranque-linea {
+  width: 100%;
+  max-width: 18rem;
+  height: 4px;
+  background: #d9deea;
+}
+
+.espera-lineas {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.35rem;
+}
+
+.espera-lineas span {
+  display: block;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: #e7e9f2;
+}
+
+.espera-lineas span:nth-child(1) { width: 92%; }
+.espera-lineas span:nth-child(2) { width: 70%; }
+.espera-lineas span:nth-child(3) { width: 46%; }
+
 .barra {
   background: var(--navy);
   color: #fff;

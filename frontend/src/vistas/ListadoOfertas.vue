@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
+import Espera from '../componentes/Espera.vue'
 import { exportarOfertas, listarOfertas, mensajeError } from '../api'
 
 const filtros = reactive({ consecutivo: '', objeto: '', descripcion: '' })
@@ -136,7 +137,11 @@ onMounted(cargar)
     </form>
 
     <p v-if="error" class="alert alert-danger" role="alert">{{ error }}</p>
-    <p v-if="cargando">Cargando licitaciones…</p>
+    <Espera
+      v-if="cargando"
+      titulo="Cargando licitaciones"
+      texto="El listado aparece en cuanto el servidor responde."
+    />
 
     <div v-else class="superficie superficie-lista">
       <p v-if="ofertas.length === 0" class="vacio mb-0">

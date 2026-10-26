@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import Espera from '../componentes/Espera.vue'
 import { mensajeError, obtenerOferta, urlPublica } from '../api'
 
 const route = useRoute()
@@ -69,7 +70,11 @@ onMounted(() => {
 
 <template>
   <div>
-    <p v-if="cargando">Cargando licitación…</p>
+    <Espera
+      v-if="cargando"
+      titulo="Cargando licitación"
+      texto="La ficha aparece en cuanto el servidor responde."
+    />
     <p v-else-if="error" class="alert alert-danger" role="alert">{{ error }}</p>
 
     <template v-else-if="oferta">
